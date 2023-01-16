@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 const Customer = require('../models/customerModel');
+const jwt = require('jsonwebtoken');
+
+// create token
+const createToken = (_id) => {
+    return jwt.sign({_id}, process.env.SECRETKEY, { expiresIn: '3d' });
+}
 
 // login customer
 const loginCustomer = async (req, res) => {
@@ -7,6 +13,8 @@ const loginCustomer = async (req, res) => {
 
     try {
         const customer = await Customer.login(customer_id, password);
+
+        const authToken = createToken(customer._id);
 
         res.status(200).json(customer);
     } 
@@ -34,6 +42,8 @@ const registerCustomer = async (req, res) => {
                                                 customer_type, 
                                                 200, 
                                                 evc_code);
+
+        const authToken = createToken(customer._id);
             
         res.status(200).json(customer);
     }
