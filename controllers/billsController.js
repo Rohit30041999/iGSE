@@ -25,6 +25,7 @@ const generateCustomerBill = async (req, res) => {
 
                 // console.log(elec_day_reading_unpaid, elec_night_reading_unpaid, gas_reading_unpaid)
                 let months = 0;
+                let noPaidReadings = true;
 
                 for(let reading of readings) {
                     if(reading['status'] === "paid") {
@@ -39,10 +40,17 @@ const generateCustomerBill = async (req, res) => {
                         
                         // console.log(elec_day_reading_paid, elec_night_reading_paid, gas_reading_paid)
                         // console.log(bill);
-
+                        noPaidReadings = false;
                         break;
                     }
                     months = months + 1;
+                }
+
+                if(noPaidReadings) {
+                    bill = ((elec_day_reading_unpaid) * electricity_day['rate']) +
+                            ((elec_night_reading_unpaid) * electricity_night['rate']) +
+                            ((gas_reading_unpaid) * gas['rate']) +
+                            (standing_charge['rate'] * (30 * months));
                 }
             }
         }
@@ -78,6 +86,7 @@ const payBill = async (req, res) => {
 
                 // console.log(elec_day_reading_unpaid, elec_night_reading_unpaid, gas_reading_unpaid)
                 let months = 0;
+                let noPaidReadings = true;
 
                 for(let reading of readings) {
                     if(reading['status'] === "paid") {
@@ -92,10 +101,17 @@ const payBill = async (req, res) => {
                         
                         // console.log(elec_day_reading_paid, elec_night_reading_paid, gas_reading_paid)
                         // console.log(bill);
-
+                        noPaidReadings = false;
                         break;
                     }
                     months = months + 1;
+                }
+
+                if(noPaidReadings) {
+                    bill = ((elec_day_reading_unpaid) * electricity_day['rate']) +
+                            ((elec_night_reading_unpaid) * electricity_night['rate']) +
+                            ((gas_reading_unpaid) * gas['rate']) +
+                            (standing_charge['rate'] * (30 * months));
                 }
             }
         } else {
