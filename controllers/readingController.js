@@ -5,7 +5,7 @@ const readingsModel = require('../models/readingsModel');
 // Get all Readings
 const getReadings = async (req, res) => {
     try {
-        const readings = await readingsModel.find({}).sort({status: -1});
+        const readings = await readingsModel.find({}).sort({submission_date: -1});
         res.status(200).json(readings);
     }
     catch(error) {

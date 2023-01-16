@@ -23,7 +23,6 @@ const registerCustomer = async (req, res) => {
         property_type, 
         bedroom_num, 
         customer_type, 
-        energy_credit, 
         evc_code } = req.body;
 
     try {
@@ -33,7 +32,7 @@ const registerCustomer = async (req, res) => {
                                                 property_type, 
                                                 bedroom_num, 
                                                 customer_type, 
-                                                energy_credit, 
+                                                200, 
                                                 evc_code);
             
         res.status(200).json(customer);
